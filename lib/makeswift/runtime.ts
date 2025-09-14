@@ -1,6 +1,6 @@
 import { ReactRuntime } from '@makeswift/runtime/react'
 import { lazy } from 'react'
-import { TextInput, Checkbox, Style } from '@makeswift/runtime/controls'
+import { TextInput, Checkbox, Style, Select } from '@makeswift/runtime/controls'
 
 export const runtime = new ReactRuntime({
   breakpoints: {
@@ -42,6 +42,20 @@ runtime.registerComponent(
       isMinimized: Checkbox({
         label: 'Start Minimized',
         defaultValue: false,
+      }),
+      llmProvider: Select({
+        label: 'LLM Provider',
+        options: [
+          { label: 'Mock (Testing)', value: 'mock' },
+          { label: 'Google Gemini', value: 'gemini' },
+          { label: 'OpenAI ChatGPT', value: 'openai' },
+          { label: 'Anthropic Claude', value: 'anthropic' },
+        ],
+        defaultValue: 'mock',
+      }),
+      apiKey: TextInput({
+        label: 'API Key',
+        helpText: 'Optional: API key for the selected LLM provider. If not provided, will use environment variables.',
       }),
       className: Style(),
     },

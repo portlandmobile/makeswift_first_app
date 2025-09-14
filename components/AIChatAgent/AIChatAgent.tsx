@@ -18,6 +18,8 @@ type Props = {
   isMinimized?: boolean
   welcomeMessage?: string
   apiEndpoint?: string
+  llmProvider?: 'gemini' | 'openai' | 'anthropic' | 'mock'
+  apiKey?: string
 }
 
 export const AIChatAgent = forwardRef(function AIChatAgent(
@@ -28,7 +30,9 @@ export const AIChatAgent = forwardRef(function AIChatAgent(
     sendButtonText = "Send",
     isMinimized = false,
     welcomeMessage = "Hello! I'm your AI assistant. How can I help you today?",
-    apiEndpoint = "/api/chat"
+    apiEndpoint = "/api/chat",
+    llmProvider = "mock",
+    apiKey
   }: Props,
   ref: Ref<HTMLDivElement>
 ) {
@@ -69,7 +73,7 @@ export const AIChatAgent = forwardRef(function AIChatAgent(
     setIsLoading(true)
 
     try {
-      // Simulate API call - replace with actual AI service integration
+      // Call LLM API with provider configuration
       const response = await fetch(apiEndpoint, {
         method: 'POST',
         headers: {
@@ -77,7 +81,9 @@ export const AIChatAgent = forwardRef(function AIChatAgent(
         },
         body: JSON.stringify({
           message: userMessage.content,
-          conversation: messages
+          conversation: messages,
+          provider: llmProvider,
+          apiKey: apiKey
         })
       })
 
